@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Resource</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f9;
+    }
+
+    h2, h3 {
+      color: #333;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .card {
+      padding: 20px;
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .card:hover {
+      background-color: #f0f0f0;
+    }
+
+    input[type="file"],
+    input[type="text"] {
+      display: block;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #5c67f2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    button:hover {
+      background-color: #4a54e1;
+    }
+
+    .uploaded-files {
+      margin-top: 20px;
+    }
+
+    .file-card {
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .file-card a {
+      color: #5c67f2;
+      text-decoration: none;
+    }
+
+    .file-card a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card" onclick="showUploadSection()">
+    <h3>Upload Resource</h3>
+  </div>
+
+  <div id="uploadSection" style="display: none;">
+    <h2>Upload Resource</h2>
+
+    <!-- Upload Form Fields -->
+    <input type="file" id="fileInput" />
+    <input type="text" id="filenameInput" placeholder="Enter file name" />
+    <input type="text" id="semesterIdInput" placeholder="Enter semester ID (e.g., sem1)" />
+    <input type="text" id="testTypeInput" placeholder="Enter test type (e.g., Mid)" />
+    <button onclick="handleUpload()">Upload</button>
+
+    <div class="uploaded-files">
+      <h3>Uploaded Files</h3>
+      <div id="fileContainer"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let uploadedFiles = [];
+
+  function showUploadSection() {
+    document.querySelector('.card').style.display = 'none';
+    document.getElementById('uploadSection').style.display = 'block';
+  }
+
+  async function handleUpload() {
+    const fileInput = document.getElementById('fileInput');
+    const filename = document.getElementById('filenameInput').value;
+    const semesterId = document.getElementById('semesterIdInput').value;
+    const testType = document.getElementById('testTypeInput').value;
+
+    const file = fileInput.files[0];
+
+    if (!file || !filename || !semesterId || !testType) {
+      alert('Please fill in all fields and select a file');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('filename', filename);
+    formData.append('semesterId', semesterId);
+    formData.append('testType', testType);
+
+    try {
+      const response = await fetch('http://localhost:8080/api/resource/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log(data); // See response structure
+
+      const fileUrl = data.fileUrl;
+
+      if (fileUrl) {
+        uploadedFiles.push(fileUrl);
+        displayUploadedFiles();
+        fileInput.value = '';
+        document.getElementById('filenameInput').value = '';
+        document.getElementById('semesterIdInput').value = '';
+        document.getElementById('testTypeInput').value = '';
+        alert('File uploaded successfully');
+      } else {
+        alert('Upload succeeded but file URL is missing.');
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      alert(`Upload failed: ${error.message}`);
+    }
+  }
+
+  function displayUploadedFiles() {
+    const fileContainer = document.getElementById('fileContainer');
+    fileContainer.innerHTML = '';
+
+    uploadedFiles.forEach((fileUrl, index) => {
+      const fileCard = document.createElement('div');
+      fileCard.classList.add('file-card');
+      fileCard.innerHTML = `
+        <a href="${fileUrl}" target="_blank" rel="noopener noreferrer">
+          View File ${index + 1}
+        </a>
+      `;
+      fileContainer.appendChild(fileCard);
+    });
+  }
+</script>
+
+</body>
+</html>

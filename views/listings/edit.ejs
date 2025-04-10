@@ -1,0 +1,72 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10 col-sm-12">
+      <h3 class="text-center mb-4">Edit your Branch</h3>
+
+      <form 
+        method="POST" 
+        action="/listings/<%= listing._id %>?_method=PUT" 
+        class="needs-validation" 
+        novalidate 
+        enctype="multipart/form-data"
+      >
+        <!-- Title -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input 
+            name="listing[title]" 
+            value="<%= listing.title %>" 
+            type="text" 
+            class="form-control" 
+            id="title"
+            required 
+          />
+          <div class="valid-feedback">Title looks good!</div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea 
+            name="listing[description]" 
+            class="form-control" 
+            id="description" 
+            rows="4"
+            required
+          ><%= listing.description.trim() %></textarea>
+          <div class="invalid-feedback">Please enter a short description.</div>
+        </div>
+
+        <!-- Original Image -->
+        <div class="mb-3">
+          <label class="form-label d-block">Original Listing Image</label>
+          <img 
+            src="<%= originalImageUrl %>" 
+            alt="Current Listing Image" 
+            class="img-fluid rounded border shadow-sm w-100" 
+            style="max-height: 300px; object-fit: cover;"
+          />
+        </div>
+
+        <!-- Upload New Image -->
+        <div class="mb-3">
+          <label for="image" class="form-label">Upload New Image</label>
+          <input 
+            name="listing[image]" 
+            type="file" 
+            class="form-control" 
+            id="image"
+            accept="image/*"
+          />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid">
+          <button class="btn btn-dark edit-btn">Edit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

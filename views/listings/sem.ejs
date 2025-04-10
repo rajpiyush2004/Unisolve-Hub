@@ -1,0 +1,90 @@
+<h1 class="heading">Select Semester</h1>
+
+<div class="card custom-card" onclick="redirectToPage(1)">
+    <div class="card-body">
+        <h5 class="card-title">1st Semester</h5>
+    </div>
+</div>
+<div class="card custom-card" onclick="redirectToPage(2)">
+    <div class="card-body">
+        <h5 class="card-title">2nd Semester</h5>
+    </div>
+</div>
+<div class="card custom-card" onclick="redirectToPage(3)">
+    <div class="card-body">
+        <h5 class="card-title">3rd Semester</h5>
+    </div>
+</div>
+<div class="card custom-card" onclick="redirectToPage(4)">
+    <div class="card-body">
+        <h5 class="card-title">4th Semester</h5>
+    </div>
+</div>
+<div class="card custom-card" onclick="redirectToPage(5)">
+    <div class="card-body">
+        <h5 class="card-title">5th Semester</h5>
+    </div>
+</div>
+<div class="card custom-card" onclick="redirectToPage(6)">
+    <div class="card-body">
+        <h5 class="card-title">6th Semester</h5>
+    </div>
+</div>
+<div class="card custom-card" onclick="redirectToPage(7)">
+    <div class="card-body">
+        <h5 class="card-title">7th Semester</h5>
+    </div>
+</div>
+<div class="card custom-card" onclick="redirectToPage(8)">
+    <div class="card-body">
+        <h5 class="card-title">8th Semester</h5>
+    </div>
+</div>
+
+<style>
+/* Card Styling */
+.custom-card {
+    background-color: rgb(28, 247, 13);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    overflow: hidden;
+    padding: 10px;
+    max-width: 400px;
+    margin: 20px auto;
+    cursor: pointer;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Title Styling */
+.custom-card .card-title {
+    color: black;
+    font-weight: 600;
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 0;
+}
+
+/* Heading Styling */
+.heading {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+</style>
+
+<script>
+function redirectToPage(semester) {
+    window.location.href = `/exam/${semester}`;
+}
+</script>

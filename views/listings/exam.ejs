@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Select Examination</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .heading {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      padding: 0 15px;
+    }
+
+    #exam-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+      max-width: 400px;
+      padding: 0 15px 20px;
+      box-sizing: border-box;
+    }
+
+    .custom-card {
+      background: linear-gradient(135deg, #c3eaff 0%, #a1c4fd 100%);
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+      padding: 15px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .custom-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 480px) {
+      .heading {
+        font-size: 1.8rem;
+      }
+
+      .custom-card {
+        font-size: 1rem;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="heading">Select Examination</h1>
+  <div id="exam-container"></div>
+
+  <script>
+    const semesterId = "<%= semesterId %>";
+    const exams = [
+      { id: "Syllabus", name: "Syllabus" },
+      { id: "Cycle Test-1", name: "Cycle Test-1" },
+      { id: "Cycle Test-2", name: "Cycle Test-2" },
+      { id: "End-Sem", name: "End-Sem" },
+      { id: "Question Bank", name: "Question Bank" },
+      { id: "Assignment", name: "Assignment" },
+    ];
+
+    const container = document.getElementById('exam-container');
+
+    exams.forEach(exam => {
+      const card = document.createElement('div');
+      card.className = 'custom-card';
+      card.innerHTML = `<div>${exam.name}</div>`;
+      card.onclick = () => window.location.href = `/examinations/${semesterId}/${encodeURIComponent(exam.id)}`;
+      container.appendChild(card);
+    });
+  </script>
+
+</body>
+</html>

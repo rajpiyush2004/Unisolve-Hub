@@ -1,0 +1,143 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  @media (max-width: 576px) {
+    .card h2 {
+      font-size: 1.5rem;
+    }
+
+    .card p,
+    .form-label,
+    .btn {
+      font-size: 0.95rem;
+    }
+
+    #fullName,
+    #email,
+    #mobile,
+    #profileImage {
+      font-size: 0.95rem;
+      padding: 10px;
+    }
+
+    .rounded-circle {
+      width: 100px !important;
+      height: 100px !important;
+    }
+
+    .btn-lg {
+      padding: 10px;
+      font-size: 1rem;
+    }
+  }
+  .btn-fe {
+    background-color: #fe424d;
+    border-color: #fe424d;
+    color: white;
+  }
+
+  .btn-fe:hover {
+    background-color: #e33b45;
+    border-color: #e33b45;
+    color: white;
+  }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
+  <div class="card p-4 shadow-lg w-100" style="max-width: 550px; border-radius: 20px;">
+    
+    <!-- Header -->
+    <div class="text-center mb-4">
+      <h2 class="fw-bold mb-1">Your Profile</h2>
+      <p class="text-muted">Update your details and profile photo</p>
+    </div>
+
+    <!-- Profile Image -->
+    <div class="text-center mb-3">
+      <img 
+        src="<%= user.profileImage || 'https://via.placeholder.com/150' %>" 
+        alt="Profile Picture" 
+        class="rounded-circle border border-3 shadow" 
+        width="140" height="140"
+        style="object-fit: cover; transition: 0.3s;"
+        onmouseover="this.style.transform='scale(1.05)'" 
+        onmouseout="this.style.transform='scale(1)'"
+      >
+    </div>
+
+    <!-- User Details -->
+    <div class="text-center mb-4">
+      <h5 class="fw-semibold mb-1">
+        <i class="fa-solid fa-user me-2 text-primary"></i> 
+        <%= user.fullName || user.username || "Unnamed User" %>
+      </h5>      
+      <p class="text-muted mb-0">
+        <i class="fa-solid fa-envelope me-2 text-secondary"></i> 
+        <%= user.email %>
+      </p>
+    </div>
+
+    <!-- Profile Form -->
+    <form action="/profile/update" method="POST" enctype="multipart/form-data">
+      
+      <!-- Full Name -->
+      <div class="mb-3">
+        <label for="fullName" class="form-label fw-semibold">Full Name</label>
+        <input 
+          class="form-control" 
+          type="text" 
+          id="fullName" 
+          name="fullName" 
+          value="<%= user.fullName %>" 
+          required
+        >
+      </div>
+
+      <!-- Email (Read-only) -->
+      <div class="mb-3">
+        <label for="email" class="form-label fw-semibold">Email</label>
+        <input 
+          class="form-control" 
+          type="email" 
+          id="email" 
+          name="email" 
+          value="<%= user.email %>" 
+          readonly
+        >
+      </div>
+
+      <!-- Mobile Number -->
+      <div class="mb-3">
+        <label for="mobile" class="form-label fw-semibold">Mobile Number</label>
+        <input 
+          class="form-control" 
+          type="tel" 
+          id="mobile" 
+          name="mobile" 
+          value="<%= user.mobile || '' %>" 
+          placeholder="Enter your mobile number"
+        >
+      </div>
+
+      <!-- Profile Image Upload -->
+      <div class="mb-3">
+        <label for="profileImage" class="form-label fw-semibold">Change Profile Picture</label>
+        <input 
+          class="form-control form-control-lg border-primary-subtle" 
+          type="file" 
+          id="profileImage" 
+          name="profileImage" 
+          accept="image/*"
+        >
+      </div>
+
+      <!-- Submit Button -->
+      <div class="d-grid mt-4">
+        <button class="btn btn-fe rounded-pill btn-lg" type="submit">
+          <i class="fa-solid fa-floppy-disk me-2"></i> Save Changes
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>

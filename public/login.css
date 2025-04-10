@@ -1,0 +1,107 @@
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Arial', sans-serif;
+    background: url('https://www.wallpapertip.com/wmimgs/49-493241_background-image-for-student-portal.jpg') center center / cover no-repeat;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .top-left-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 200px;
+    height: auto;
+    z-index: 1001;
+  }
+
+  /* Form container styles */
+  .container {
+    background-color: rgba(31, 31, 31, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(50, 205, 50, 0.5);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .container h1 {
+    margin-bottom: 20px;
+    color: #32CD32;
+    font-size: 2em;
+  }
+
+  .container input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #32CD32;
+    border-radius: 8px;
+    background-color: #121212;
+    color: #ffffff;
+    font-size: 1em;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+
+  .container input:hover {
+    background-color: #333;
+  }
+
+  .container input:focus {
+    border-color: #28a745;
+    outline: none;
+  }
+
+  .container input[type="submit"] {
+    background-color: #32CD32;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .container input[type="submit"]:hover {
+    background-color: #28a745;
+    transform: scale(1.05);
+  }
+
+  .switch-form {
+    color: #ccc;
+    font-size: 0.9em;
+  }
+
+  .switch-form a {
+    color: #32CD32;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+
+  .switch-form a:hover {
+    color: #28a745;
+    text-decoration: underline;
+  }
+
+    .container {
+      padding: 20px;
+    }

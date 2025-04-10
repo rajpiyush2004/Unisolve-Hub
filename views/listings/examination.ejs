@@ -1,0 +1,240 @@
+<h1 class="heading"><%= testType %> Resources</h1>
+<h2 class="sub-heading">Upload File</h2>
+
+<!-- Upload Form -->
+<form id="uploadForm" enctype="multipart/form-data">
+  <input type="hidden" id="semesterId" name="semesterId" value="<%= semesterId %>">
+  <input type="hidden" id="testType" name="testType" value="<%= testType %>">
+
+  <input type="text" id="fileNameInput" name="filename" placeholder="Enter file name" required />
+  <input type="file" id="fileInput" name="file" required />
+  <button type="submit">Upload</button>
+</form>
+
+<h2 class="sub-heading">Uploaded Files</h2>
+<div id="fileList"></div>
+
+<script>
+  const semesterId = "<%= semesterId %>";
+  const testType = "<%= testType %>";
+
+  async function fetchFiles() {
+    try {
+      const response = await fetch(`/api/resource/${encodeURIComponent(semesterId)}/${encodeURIComponent(testType)}`);
+      if (!response.ok) throw new Error('Failed to fetch files');
+
+      const files = await response.json();
+      const fileList = document.getElementById('fileList');
+      fileList.innerHTML = '';
+
+      files.forEach(file => {
+        const card = document.createElement('div');
+        card.className = 'file-card';
+        card.innerHTML = `
+          <p title="${file.filename}">${file.filename}</p>
+          <a href="${file.url}" target="_blank" download>Download</a>
+        `;
+        fileList.appendChild(card);
+      });
+    } catch (error) {
+      console.error('Error fetching files:', error);
+      alert('Failed to fetch files');
+    }
+  }
+
+  document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    const fileInput = document.getElementById('fileInput');
+    const fileNameInput = document.getElementById('fileNameInput');
+
+    if (!fileInput.files.length) {
+      alert('Please select a file');
+      return;
+    }
+    if (!fileNameInput.value.trim()) {
+      alert('Please enter a file name');
+      return;
+    }
+
+    formData.append('file', fileInput.files[0]);
+    formData.append('filename', fileNameInput.value.trim());
+    formData.append('testType', testType);
+    formData.append('semesterId', semesterId);
+
+    try {
+      const response = await fetch('/api/resource/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        alert('File uploaded successfully!');
+        fileInput.value = '';
+        fileNameInput.value = '';
+        fetchFiles(); // Refresh file list
+      } else {
+        alert('Failed to upload file');
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      alert('Failed to upload file');
+    }
+  });
+
+  fetchFiles(); // Load files on page load
+</script>
+
+<style>
+  /* Global Reset */
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f9;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 10px 0 20px;
+    text-align: center;
+  }
+
+  .sub-heading {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 20px 0 10px;
+    text-align: center;
+  }
+
+  /* Upload Form */
+  #uploadForm {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+  }
+
+  #fileNameInput, #fileInput {
+    padding: 12px;
+    width: 100%;
+    border: 2px solid #a1c4fd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  #fileNameInput:focus, #fileInput:focus {
+    border-color: #6a89cc;
+    outline: none;
+  }
+
+  button[type="submit"] {
+    background-color: #4a90e2;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #357ABD;
+  }
+
+  /* Uploaded Files */
+  #fileList {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .file-card {
+    background: linear-gradient(135deg, #c3eaff 0%, #a1c4fd 100%);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    word-break: break-word;
+  }
+
+  .file-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  }
+
+  .file-card p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2c3e50;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .file-card a {
+    margin-left: 15px;
+    color: #4a90e2;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .file-card a:hover {
+    color: #357ABD;
+    text-decoration: underline;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .heading {
+      font-size: 2rem;
+    }
+
+    .sub-heading {
+      font-size: 1.4rem;
+    }
+
+    #uploadForm,
+    .file-card {
+      width: 95%;
+    }
+
+    button[type="submit"] {
+      padding: 10px;
+    }
+  }
+</style>

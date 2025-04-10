@@ -1,0 +1,214 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  #filters-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.7;
+    transition: 0.3s ease;
+    text-align: center;
+  }
+
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .filter p {
+    font-size: 0.9rem;
+    margin: 0.4rem 0 0;
+  }
+
+  .trending-icon {
+    color: #ff5733;
+  }
+
+  .tax-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    border: 2px solid #ccc;
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .tax-toggle:hover {
+    border-color:  #fe424d;;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
+  }
+
+  .form-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .form-switch input[type="checkbox"] {
+    width: 46px;
+    height: 24px;
+    appearance: none;
+    background-color: #ddd;
+    border-radius: 20px;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .form-switch input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background-color: white;
+    border-radius: 50%;
+    top: 1px;
+    left: 1px;
+    transition: 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .form-switch input[type="checkbox"]:checked {
+    background-color:  #fe424d;;
+  }
+
+  .form-switch input[type="checkbox"]:checked::before {
+    transform: translateX(22px);
+  }
+
+  .form-switch label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+    user-select: none;
+  }
+
+  .listing-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .listing-card {
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease;
+  }
+
+  .listing-card:hover {
+    transform: scale(1.02);
+  }
+
+  .card-img-top {
+    object-fit: cover;
+    height: 15rem;
+  }
+
+  .tax-info {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    #filters-wrapper {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .tax-toggle {
+      flex-shrink: 0;
+    }
+
+    .filter {
+      flex-shrink: 0;
+    }
+
+    .card-img-top {
+      height: 12rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #filters-wrapper {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tax-toggle,
+    .filter {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .blinking {
+  animation: blinkText 1.2s infinite;
+  color: #4caf50; /* Start color */
+}
+
+@keyframes blinkText {
+  0%   { color: #4caf50; }
+  50%  { color: #f44336; } /* Mid blink color */
+  100% { color: #4caf50; }
+}
+
+</style>
+
+<!-- Filters & Toggle Row -->
+<div id="filters-wrapper">
+  <a href="/trending" style="text-decoration: none; color: inherit;">
+    <div class="filter">
+      <div><i class="fa-solid fa-fire fa-2x trending-icon"></i></div>
+      <p>Trending</p>
+    </div>
+  </a>
+
+  <div class="tax-toggle">
+    <div class="form-switch"><i class="fa-solid fa-indian-rupee-sign"></i>
+      <input type="checkbox" id="flexSwitchCheckDefault" />
+      <label for="flexSwitchCheckDefault">Display Price</label>
+    </div>
+  </div>
+</div>
+
+<!-- Responsive Card Grid -->
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 mt-3 px-3">
+  <% for(let listing of allListings) { %>
+    <div class="col d-flex justify-content-center">
+      <a href="/listings/<%= listing._id %>" class="listing-link">
+        <div class="card listing-card" style="width: 22rem;">
+          <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" />
+          <div class="card-img-overlay text-white">Piyush</div>
+          <div class="card-body">
+            <p class="card-text">
+              <b><%= listing.title %></b><br>
+              <i class="tax-info blinking">&nbsp;&nbsp;<b>Free Resource</b></i>
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+  <% } %>
+</div>
+
+<script>
+  document.getElementById("flexSwitchCheckDefault").addEventListener("click", () => {
+    const taxInfo = document.getElementsByClassName("tax-info");
+    for (let info of taxInfo) {
+      info.style.display = (info.style.display !== "inline") ? "inline" : "none";
+    }
+  });
+</script>

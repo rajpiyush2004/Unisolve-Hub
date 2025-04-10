@@ -1,0 +1,69 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  @media (max-width: 768px) {
+    .form-label {
+      font-size: 0.95rem;
+    }
+
+    .form-control {
+      font-size: 0.95rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .add-btn {
+      width: 100%;
+    }
+
+    .col-8.offset-2 {
+      padding: 0 1rem;
+    }
+  }
+</style>
+
+<div class="row mt-3">
+  <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12">
+    <br /><br />
+    <h3>Create a New Branch</h3>
+    <form method="POST" action="/listings" class="needs-validation" novalidate enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          name="listing[title]"
+          placeholder="Enter your branch title"
+          type="text"
+          class="form-control"
+          required
+        />
+        <div class="valid-feedback">Title looks Good!</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          name="listing[description]"
+          placeholder="Enter description"
+          class="form-control"
+          required
+        ></textarea>
+        <div class="invalid-feedback">Please enter a short description</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Upload Branch Image</label>
+        <input
+          name="listing[image]"
+          type="file"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <button class="btn btn-dark add-btn mb-3" type="submit">Add</button>
+    </form>
+  </div>
+</div>

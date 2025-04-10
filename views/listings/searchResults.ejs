@@ -1,0 +1,18 @@
+<% layout("/layouts/boilerplate") %>
+<div class="container mt-5 px-3 px-md-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+
+      <!-- Search Result Heading -->
+      <h3 class="fw-bold text-center text-md-start mb-4">
+        Search Results for "<%= query %>"
+      </h3>
+
+      <!-- No Result Message -->
+      <% if (notFound) { %>
+        <p class="text-danger text-center fs-5">No matching listing found.</p>
+      <% } %>
+
+    </div>
+  </div>
+</div>
